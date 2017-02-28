@@ -10,7 +10,8 @@ Imagine you wanted to move a use a DC motor and get that thing to rotate to a sp
 
 You hook up the motor to your to arduino using an L298 motor driver ([example](http://www.instructables.com/id/Control-DC-and-stepper-motors-with-L298N-Dual-Moto/)). Speed of the motor is controlled by the stupidly easy [PWM methods](https://www.arduino.cc/en/Tutorial/PWM). The PWM settings is guided manually to move using a potentiometer.
 
-This graph is an example of what might happen: 
+This graph is an example of what might happen:
+
 ![Movement attempt](http://i.imgur.com/lCbXkjo.jpg) 
 
 The x-axis is time, the y-axis is motor position. The red line shows the position you want to move the motor. But it's just you and your fat fingers trying to move that motor. What might happen is something like the blue line. You request to go to a certain position and in the case of the blue line, the motor wildly over shoots that position. You dont know how to slow down at the right time, maybe if you were manually controlling it it would go "whoaaaaa" and try to swing back to that position, over shooting, and eventually you'd bounce back and forth to get close to the desired position.
