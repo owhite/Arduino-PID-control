@@ -8,4 +8,4 @@ The original [Grett Beauregard blog post](http://brettbeauregard.com/blog/2011/0
 
 Installation and usage of python as well as pyplot is left up to you.
 
-Format: ![Alt Text](http://i.imgur.com/VzkznFA.png)
+![PID formula](http://i.imgur.com/VzkznFA.png)
