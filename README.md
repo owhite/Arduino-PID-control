@@ -4,7 +4,7 @@
 
 Imagine you wanted to move a use a DC motor and get that thing to rotate to a specific position.
 
-You hook up the motor to your to arduino using an L298 motor driver ([example](http://www.instructables.com/id/Control-DC-and-stepper-motors-with-L298N-Dual-Moto/)). Speed of the motor is controlled by the stupidly easy [PWM methods](https://www.arduino.cc/en/Tutorial/PWM). The PWM settings is guided manually to move using a potentiometer.
+You hook up the motor to your to arduino using an L298 motor driver ([example](http://www.instructables.com/id/Control-DC-and-stepper-motors-with-L298N-Dual-Moto/)). Speed of the motor is controlled by the stupidly easy [PWM methods](https://www.arduino.cc/en/Tutorial/PWM). The PWM settings for example could be guided manually to move using a potentiometer - [example](http://www.instructables.com/id/Controlling-Motors-with-Arduino/).
 
 This graph is an example of what might happen:
 
@@ -26,10 +26,13 @@ still dont, quite frankly. But once you get PID working in your arduino code, an
 
 ![Wikipedia PID graph](https://upload.wikimedia.org/wikipedia/commons/a/a3/PID_varyingP.jpg)
 
-Actually this is what will never happen without PID. Again, the x-axis is time, the y-axis is motor position. Using a serial you issue a command to go to a certain position. The blue shows the ideal situation: at a certain time point you want the dumb thing to go to a specific point and just stay there. What might happen is something like the purple line. You request to go to a certain position and in the case of the purple line, the motor wildly over shoots that position. It also doesnt know how to slow down at the right time, it also goes "whoaaaaa" and tries to swing back to the target position, over shooting, and eventually bounces back and forth to get close to the target position.
+Again, the x-axis is time, the y-axis is motor position. Using a serial you issue a command to go to a certain position. The blue shows the ideal situation: at a certain time point you want the dumb thing to go to a specific point and just stay there. What might happen is something like the purple line. You request to go to a certain position and in the case of the purple line, the motor wildly over shoots that position. It also doesnt know how to slow down at the right time, it also goes "whoaaaaa" and tries to swing back to the target position, over shooting, and eventually bounces back and forth to get close to the target position.
 
-Okay, so this sucks. You try a bunch of variables for kP, kI, and kD and the motor is behaving erratically. The other lines on the graph show various behaviors depending on your settings. 
+You try a bunch of variables for kP, kI, and kD and the motor is behaving erratically. The other lines on the graph show various behaviors depending on your settings. Okay, so this sucks - because none of the PID components work well unless you are able to really see how the motor is reacting to the PID settings. Maybe you've got enough experience with tuning that you've developed an intuition for how to set parameters to work well, or, maybe you'll just luck out. Not me, not so far. 
 
 ## Enter: somewhat more rational PID tunings for an arduino-based dc motor.
 
+If you use python. You can use it to issue commands to an arduino, change PID settings, and then graph the results to view the response of the motor. 
+
 Installation and usage of python as well as pyplot is left up to you.
+
