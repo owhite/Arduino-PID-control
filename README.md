@@ -18,10 +18,3 @@ still dont, quite frankly. But these plots are making a lot more sense.
 
 Okay, so suppose you wanted to move a use a DC motor and get that thing to rotate to a specific position. 
 
-
-
-Suppose then, you're like me and you [read up on dc motor control](https://www.youmagine.com/designs/dc-motor-closed-loop-control-software) using an arduino and you discover something called PID. In this case you send serial commands to the motor, no more potentiometers. And also let's go with a [dc motor](http://i.imgur.com/485PtIJ.jpg) equipped with an encoder. "Hey hey, great resolution" you think. Here, you use the encoder to track the position based on the number of encoder ticks and you hope the motor will arrive at that position. 
-
-The graph above starts to show what happens - actually what will never happen without PID. Again, the x-axis is time, the y-axis is motor position. Using a serial command you issue a command to go to a certain position. The blue shows the ideal situation: at a certain time point you want the dumb thing to go to a specific point and just stay there. What might happen is something like the purple line. You request to go to a certain position and in the case of the purple line, the motor wildly over shoots that position. You dont know how to slow down at the right time, maybe if you were manually controlling it it would go "whoaaaaa" and try to swing back to that position, over shooting, and eventually you'd bounce back and forth to get close to the desired position.
-
-
