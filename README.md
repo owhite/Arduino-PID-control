@@ -47,7 +47,7 @@ Here's the plan:
 
 ## Some notes about my environment.
 
-If you're like me, you hate IDEs and love command line programming. I [platformio](http://platformio.org/). You dont have to use it, but installing the code on the arduino will be different. I'm not going to walk your through installing all the include files shown in my [src](https://github.com/owhite/Arduino-PID-control/tree/master/src) folder. Frankly I dont know how to do it for the arduino IDE. 
+If you're like me, you hate IDEs and love command line programming. I really like [platformio](http://platformio.org/). You dont have to use it, but installing the code on the arduino will be different. I'm not going to walk your through installing all the include files shown in my [src](https://github.com/owhite/Arduino-PID-control/tree/master/src) folder. Frankly I dont know how to do it for the arduino IDE. 
 
 Similarly, installation and usage of python as well as pyplot is left up to you.
 
@@ -131,6 +131,8 @@ The following are examples of commands that can be submitted to handle_cmd():
 * `zero` - sets the encoder counter to zero. 
 * `probe_device` - returns a name for the device, in this case "PID_device". I like this when multiple devices are hanging off the same computer, then my python code can poll all the devices and find the one it's interested in.
 
+Note: you can use all of those commands in the serial terminal of the arduino IDE. To give it a try go to Tools-->serial monitor.
+
 Moving on. The `setup()` function is not particularly interesting. The function cal `recoverPIDfromEEPROM();` handles retrieving the variables `kP`, `kI`, and `kD` from the eeprom. The `loop()` function looks like this:
 
 Hopefully you're familiar with state machines. These are really handy if you get tired of having `if {this1} else if {this2} else if {this3}...`. There are some super fast programs for things like balancing robots that use state machines. The basis of this section is the switch statement. Where:
@@ -195,8 +197,8 @@ When state = S_MOTOR_INIT we'll clear the positionArray[] that will be used log 
 * find position with `encoder.read();`
 * compute the PID with `myPID.Compute();
   * note: this is put into a while loop to make sure that it's performed the complete calculation
-* test the value `output` and:
-  * set motor direction of IN_A, IN_B pins with `digitalWrite();` 
+* `output` can range from -255 to +255
+  * set direction of the motors based if if output is < 0, `digitalWrite();` 
   * set the motor's speed with `analogWrite(PWM_PIN,abs(output));`
 * then log the position in positionArray[]
 
@@ -204,3 +206,17 @@ That's PID control! Pretty darn simple.
 
 We stay in S_MOTOR_RUN state until another command is issued to the program. 
 
+## Now it's time to plot the data
+
+This [python code](https://github.com/owhite/Arduino-PID-control/blob/master/serial_n_plot.py) is used to make a serial connection to your arduino and control the thing using the commans shown above. An important line of code in the pythong program is:
+```
+port = '/dev/tty.usbmodem2335471'
+```
+
+be sure to modify this based on the location of the serial port from your computer. If you're running the python in windows, port might just be:
+
+```
+port = 'COM3'
+```
+
+[check](https://petrimaki.com/2013/04/28/reading-arduino-serial-ports-in-windows-7/), [the](http://forum.arduino.cc/index.php?topic=18371.0), [net](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=python+arduino+windows&*) for using python with windows (and other platforms). 
