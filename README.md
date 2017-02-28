@@ -93,7 +93,8 @@ Moving on. The `setup()` function is not particularly interesting. The function 
 Hopefully you're familiar with state machines. These are really handy if you get tired of having `if {this1} else if {this2} else if {this3}...`. There are some super fast programs for things like balancing robots that use state machines. The basis of this section is the switch statement. Where:
 
 
-' // state = some_value like S_REPORT, S_MOTOR_RUN or some other integer
+```
+ // state = some_value like S_REPORT, S_MOTOR_RUN or some other integer
 
   switch (state) {
   case S_REPORT:
@@ -106,5 +107,5 @@ Hopefully you're familiar with state machines. These are really handy if you get
   .
   .
   etc
-'
+```
 
