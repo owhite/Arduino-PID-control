@@ -65,16 +65,13 @@ RunningAverage RA1(RAsamples);
 void setup() { 
   inputString.reserve(200);
 
-  RA1.clear();
-
   pinMode(IN_A, OUTPUT);
   pinMode(IN_B, OUTPUT);
   pinMode(PWM_PIN, OUTPUT);
 
-  analogWriteFrequency(4, 20000);
   Serial.begin (SERIAL_SPEED);
 
-  // recoverPIDfromEEPROM();
+  recoverPIDfromEEPROM();
 
   //Setup the pid 
   myPID.SetMode(AUTOMATIC);
