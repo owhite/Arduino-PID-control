@@ -191,7 +191,7 @@ The most relevant section of the loop is:
     break;
 ```
 
-When state = S_MOTOR_INIT we'll clear an positionArray[] that will be used log our position data, pass our current kP, kI, kD values to the PID function, and then change the state to S_MOTOR_RUN. When we're in S_MOTOR_RUN we do a very simple set of things:
+When state = S_MOTOR_INIT we'll clear the positionArray[] that will be used log our position data, pass our current kP, kI, kD values to the PID function, and then change the state to S_MOTOR_RUN. When we're in S_MOTOR_RUN we do a very simple set of things:
 * find position with `encoder.read();`
 * compute the PID with `myPID.Compute();
   * note: this is put into a while loop to make sure that it's performed the complete calculation
@@ -199,4 +199,8 @@ When state = S_MOTOR_INIT we'll clear an positionArray[] that will be used log o
   * set motor direction of IN_A, IN_B pins with `digitalWrite();` 
   * set the motor's speed with `analogWrite(PWM_PIN,abs(output));`
 * then log the position in positionArray[]
+
+That's PID control! Pretty darn simple. 
+
+We stay in S_MOTOR_RUN state until another command is issued to the program. 
 
