@@ -35,14 +35,14 @@ You try a bunch of variables for kP, kI, and kD and the motor is behaving errati
 If you use python, you can use it to issue commands to an arduino, change PID settings, and then graph the results to view the response of the motor. 
 
 Here's the plan: 
-1  Write an IDE that can take commands from python
-1  Use the python code on the command line to connect through the serial to your curcuit
-1  Have the arduino do a little data recording
-1  Watch the motor behavior
-1  Issue various commands to control the circuit
-..* Change PID settings
-..* Store settings in eeprom
-..* Dump data to pyplot
+* Write an IDE that can take commands from python
+*  Use the python code on the command line to connect through the serial to your curcuit
+*  Have the arduino do a little data recording
+*  Watch the motor behavior
+*  Issue various commands to control the circuit
+  * Change PID settings
+  * Store settings in eeprom
+  * Dump data to pyplot
 
 Installation and usage of python as well as pyplot is left up to you.
 
