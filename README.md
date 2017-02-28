@@ -219,4 +219,34 @@ be sure to modify this based on the location of the serial port from your comput
 port = 'COM3'
 ```
 
-[check](https://petrimaki.com/2013/04/28/reading-arduino-serial-ports-in-windows-7/), [the](http://forum.arduino.cc/index.php?topic=18371.0), [net](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=python+arduino+windows&*) for using python with windows (and other platforms). 
+[check](https://petrimaki.com/2013/04/28/reading-arduino-serial-ports-in-windows-7/), [the](http://forum.arduino.cc/index.php?topic=18371.0), [net](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=python+arduino+windows&*) for using python with windows (and other [platforms](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=python+arduino+linux&*)).
+
+this loop:
+```
+        while True:
+            buffer = []
+            try:
+                for message in iter(lambda:raw_input("Enter Message:"),""):
+                    if (message == 'quit'):
+                        print message
+                        ser.close()
+                        sys.exit()
+                    msg_with_newline = message+"\n"
+                    print "sending", msg_with_newline.rstrip()
+                    ser.write(msg_with_newline)
+                    buffer = ''
+                    time.sleep(1)
+                    while ser.inWaiting() > 0:
+                        buffer += ser.read(1)
+                    if (re.match(r'plot', buffer)):
+                        l.handle_plot(buffer)                        
+                    else:
+                        print ("%s %s") % (port, buffer)
+
+            except KeyboardInterrupt:
+                print "Bye"
+                ser.close()
+                sys.exit()
+```
+
+in the python code handles 
