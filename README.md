@@ -35,14 +35,21 @@ You try a bunch of variables for kP, kI, and kD and the motor is behaving errati
 If you use python, you can use it to issue commands to an arduino, change PID settings, and then graph the results to view the response of the motor. 
 
 Here's the plan:
-* Write an IDE that can take commands from python;
+* Write an .ino for the arduino that can take commands from python;
 * Use the python code on the command line to connect through the serial to your curcuit;
 * Have the arduino do a little data recording;
 *  Issue various commands to control the circuit:
+  * Move the motor;
   * Change PID settings;
   * Store settings in eeprom;
   * Dump data to pyplot;
 * Use the plot in combination with observing the motor behavior to optimize your PID settings
 
-Installation and usage of python as well as pyplot is left up to you.
+## Some notes about my environment.
+
+If you're like me, you hate IDEs and love command line programming. I [platformio](http://platformio.org/). You dont have to use it, but installing the code on the arduino will be different. I'm not going to walk your through installing all the include files shown in my [src directly](https://github.com/owhite/Arduino-PID-control/tree/master/src). Frankly I dont know how to do it for the arduino IDE. 
+
+Similarly, installation and usage of python as well as pyplot is left up to you.
+
+I use [teensy's boards](https://www.pjrc.com/store/teensy32.html). They're cute, they're small, they dont have those goofy old school usb connectors. The downsides is they have 3.2v TTL output and they're not as cheap as some people might like. They also have slight variations in the code that they use. There may be cases where my code is not compatible with an uno for example - I will try to do some testing at some point. 
 
