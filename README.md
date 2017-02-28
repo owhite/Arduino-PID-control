@@ -267,5 +267,7 @@ Note, when the plot comes up you have to use your mouse to close the window, and
 
 Okay, I have yet to tune my little DC motor, but the next thing I'm going to do is read ["PID Without a PhD"](http://www.wescottdesign.com/articles/pid/pidWithoutAPhd.pdf) and start trying out what it says in the tuning section. (I do have a PhD by way, but it's in plant molecular biology.)
 
+Below is an example of a system that could greatly benifit from tuned PID:
+
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/8a_wUuJFRQk/0.jpg)](http://www.youtube.com/watch?v=8a_wUuJFRQk)
 
