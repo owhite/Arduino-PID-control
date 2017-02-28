@@ -116,6 +116,7 @@ handle_cmd() is invoked when anything comes in from the serial. It's important t
 
 `state = S_MOTOR_INIT;`
 
+<a name="commands"></a>
 ## Commands to send to the arduino
 The following are examples of commands that can be submitted to handle_cmd():
 
@@ -250,7 +251,7 @@ this loop:
                 sys.exit()
 ```
 
-in the python code handles accepting keyboard input from your computer, sending it to the arduino, and then receiving the response from the arduino. You can use all the [commands](https://github.com/owhite/Arduino-PID-control#commands-to-send-to-the-arduino) that we specified before. If you want to exit, type exit, or Control-c. Here's an example session:
+in the python code handles accepting keyboard input from your computer, sending it to the arduino, and then receiving the response from the arduino. You can use all the [commands](#commands) that we specified before. If you want to exit, type exit, or Control-c. Here's an example session:
 
 ```
 INSERT COOL SESSION HERE
