@@ -106,6 +106,10 @@ void handle_cmd() {
       state = S_MOTOR_OFF;
       writetoEEPROM(); 
     }
+    .
+    .
+    .
+    etc
 ```
 
 handle_cmd() is invoked when anything comes in from the serial. It's important to note that it's called from an interrupt routine called `serialEvent()`. Since it's being invoked from an interrupt, I like to have it do as little as possible and then return back to the rest of the program. So pretty much all handle_cmd() does is parse a command, then based on that command print out something to the serial and set a variable like:
@@ -114,18 +118,18 @@ handle_cmd() is invoked when anything comes in from the serial. It's important t
 
 The following are examples of commands that can be submitted to handle_cmd():
 
-* report - does a text dump of various variables.
-* W - write variables kP, kI, and kD to the eeprom
-* dump - dump all eeprom variables out as text
-* reset - restore the current kP, kI, and kD variables from what's in eeprom.
-* P 10.0  - sets kP to 10.0
-* I 0.002 - sets kI to 0.002
-* D 1.0   - sets kD to 1.0
-* target 100 - sets the target to 100
-* plot - sends data to the python program for graphing
-* P - pause the motor.
-* zero - sets the encoder counter to zero. 
-* probe_device - returns a name for the device, in this case "PID_device". I like this when multiple devices are hanging off the same computer, then my python code can poll all the devices and find the one it's interested in.
+* `report` - does a text dump of various variables.
+* `W` - write variables kP, kI, and kD to the eeprom
+* `dump` - dump all eeprom variables out as text
+* `reset` - restore the current kP, kI, and kD variables from what's in eeprom.
+* `P 10.0 ` - sets kP to 10.0
+* `I 0.002` - sets kI to 0.002
+* `D 1.0  ` - sets kD to 1.0
+* `target 100` - sets the target to 100
+* `plot` - sends data to the python program for graphing
+* `P` - pause the motor.
+* `zero` - sets the encoder counter to zero. 
+* `probe_device` - returns a name for the device, in this case "PID_device". I like this when multiple devices are hanging off the same computer, then my python code can poll all the devices and find the one it's interested in.
 
 Moving on. The `setup()` function is not particularly interesting. The function cal `recoverPIDfromEEPROM();` handles retrieving the variables `kP`, `kI`, and `kD` from the eeprom. The `loop()` function looks like this:
 
@@ -147,4 +151,52 @@ Hopefully you're familiar with state machines. These are really handy if you get
   .
   etc
 ```
+
+The most relevant section of the loop is:
+```
+  case S_MOTOR_INIT:
+    // clear array
+    for(int i=0; i<maxCount; i++) positionArray[i]=0; 
+    myPID.SetTunings(kp,ki,kd);
+    start = encoder.read();
+    positionCount = 0;
+    state = S_MOTOR_RUN;
+    break;
+  case S_MOTOR_RUN:
+    position = encoder.read();
+
+    RA1.addValue(position);
+
+    // wait till PID is actually computed
+    while(!myPID.Compute()); 
+
+    if(output < 0) {
+      digitalWrite(IN_A, HIGH);
+      digitalWrite(IN_B, LOW);
+      analogWrite(PWM_PIN,abs(output));
+    }
+    else {
+      digitalWrite(IN_A, LOW);
+      digitalWrite(IN_B, HIGH);
+      analogWrite(PWM_PIN,abs(output));
+    }
+
+    // loading this array to display for graphing
+    if(positionCount < maxCount) {
+      positionArray[positionCount]=position;
+    }
+    positionCount++;
+
+    state = S_MOTOR_RUN;
+    break;
+```
+
+When state = S_MOTOR_INIT we'll clear an positionArray[] that will be used log our position data, pass our current kP, kI, kD values to the PID function, and then change the state to S_MOTOR_RUN. When we're in S_MOTOR_RUN we do a very simple set of things:
+* find position with `encoder.read();`
+* compute the PID with `myPID.Compute();
+  * note: this is put into a while loop to make sure that it's performed the complete calculation
+* test the value `output` and:
+  * set motor direction of IN_A, IN_B pins with `digitalWrite();` 
+  * set the motor's speed with `analogWrite(PWM_PIN,abs(output));`
+* then log the position in positionArray[]
 
