@@ -261,4 +261,11 @@ When you hit plot, you should get a result like this:
 
 and the cool thing is, this is not some theoretical plot that you found on the net, it actually the behavior of the last `target 300` that you just ran.
 
-Note, when the plot comes up you have to use your mouse to close the window, and then it returns control back to the command line that is running the python code. 
+Note, when the plot comes up you have to use your mouse to close the window, and then it returns control back to the command line that is running the python code. Be gentle about exiting the python program. Control-c and `quit` is the way to go, otherwise you may gum up the serial port and will probably need to reboot.
+
+## Conclusion
+
+Okay, I have yet to tune my little DC motor, but the next thing I'm going to do is read ["PID Without a PhD"](http://www.wescottdesign.com/articles/pid/pidWithoutAPhd.pdf) and start trying out what it says in the tuning section. (I do have a PhD by way, but it's in plant molecular biology.)
+
+<a href="https://www.youtube.com/watch?v=8a_wUuJFRQk" target="_blank"><img src="
+https://www.youtube.com/watch?v=8a_wUuJFRQk/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
