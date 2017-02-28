@@ -57,7 +57,13 @@ I use [teensy's boards](https://www.pjrc.com/store/teensy32.html). They're cute,
 
 Let's look at some of the sections of the code. Starting with:
 
-![PID function](https://upload.wikimedia.org/wikipedia/commons/a/a3/PID_varyingP.jpg)
+```
+double kp=0.5;
+double ki=0.0;
+double kd=0.0;
+double position=0, output=0, target=0;
+PID myPID(&position, &output, &target, kp, ki, kd, DIRECT);
+```
 
 Again, there's a lot documentation for the PID library, but think of it as a function that is gets some inputs and delivers an important output. We're going to supply it with `kP`, `kI`, and `kD` variables that are the parameters that will be used for tuning. There are also:
 
@@ -68,6 +74,39 @@ Again, there's a lot documentation for the PID library, but think of it as a fun
 So basically you want this function to *output* a PWM signal to move motor *position* to be the same as the *target*. You'd also like it to arrive at that position without a taking a lot of time.
 
 One function in the code to review is `handle_cmd()`
+
+```
+void handle_cmd() {
+  inputString.trim(); // removes beginning and ending white spaces
+  int idx = inputString.indexOf(' ');   
+  String cmd = inputString.substring(0, idx); 
+  String value = inputString.substring(idx + 1);
+
+  if ((cmd.length() > 0)) {
+    if (cmd.equals("probe_device")) {
+      Serial.println("PID_device");
+      state = S_MOTOR_OFF;
+    }
+    if (cmd.equals("p")) {
+      Serial.println("pause");
+      state = S_MOTOR_OFF;
+    }
+    if (cmd.equals("zero")) {
+      Serial.println("zero encoder");
+      encoder.write(0);
+      state = S_MOTOR_OFF;
+    }
+    if (cmd.equals("report")) {
+      Serial.println("reporting");
+      prevState = state;
+      state = S_REPORT;
+    }
+    if (cmd.equals("W")) {
+      Serial.println("W - write EEPROM:");
+      state = S_MOTOR_OFF;
+      writetoEEPROM(); 
+    }
+```
 
 handle_cmd() is invoked when anything comes in from the serial. It's important to note that it's called from an interrupt routine called `serialEvent()`. Since it's being invoked from an interrupt, I like to have it do as little as possible and then return back to the rest of the program. So pretty much all handle_cmd() does is parse a command, then based on that command print out something to the serial and set a variable like:
 
