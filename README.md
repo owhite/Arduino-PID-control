@@ -1,11 +1,5 @@
 # Arduino-PID-control
 
-This is a project to utilize the arduino PID library to run a dc motor, and then graph the results of the motor response using python's pyplot.
-
-The [arduino playground](http://playground.arduino.cc/Code/PIDLibrary) page for the PID library.
-
-Installation and usage of python as well as pyplot is left up to you.
-
 Imagine you wanted to move a use a DC motor and get that thing to rotate to a specific position.
 
 You hook up the motor to your to arduino using an L298 motor driver ([example](http://www.instructables.com/id/Control-DC-and-stepper-motors-with-L298N-Dual-Moto/)). Speed of the motor is controlled by the stupidly easy [PWM methods](https://www.arduino.cc/en/Tutorial/PWM). The PWM settings is guided manually to move using a potentiometer.
@@ -20,6 +14,8 @@ Suppose then, you're like me and you [read up on dc motor control](https://www.y
 
 The original [Grett Beauregard blog post](http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/) on PID for the arduino.
 
+This is the [arduino playground](http://playground.arduino.cc/Code/PIDLibrary) page for the PID library.
+
 So I have to admit I never really understood this formula:  
 
 ![PID formula](http://i.imgur.com/VzkznFA.png)
@@ -30,4 +26,6 @@ still dont, quite frankly. But once you get PID working in your arduino code, an
 
 Actually this is what will never happen without PID. Again, the x-axis is time, the y-axis is motor position. Using a serial command you issue a command to go to a certain position. The blue shows the ideal situation: at a certain time point you want the dumb thing to go to a specific point and just stay there. What might happen is something like the purple line. You request to go to a certain position and in the case of the purple line, the motor wildly over shoots that position. It also doesnt know how to slow down at the right time, it also goes "whoaaaaa" and tries to swing back to the target position, over shooting, and eventually bounces back and forth to get close to the target position.
 
+Okay, so this sucks. You try a bunch of variables for kP, kI, and kD and the motor is behaving erratically. 
 
+Installation and usage of python as well as pyplot is left up to you.
