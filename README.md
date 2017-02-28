@@ -116,6 +116,7 @@ handle_cmd() is invoked when anything comes in from the serial. It's important t
 
 `state = S_MOTOR_INIT;`
 
+## Commands to send to the arduino
 The following are examples of commands that can be submitted to handle_cmd():
 
 * `report` - does a text dump of various variables.
@@ -249,4 +250,4 @@ this loop:
                 sys.exit()
 ```
 
-in the python code handles 
+in the python code handles accepting keyboard input from your computer, sending it to the arduino, and then receiving the response from the arduino. You can use all the 
