@@ -67,6 +67,44 @@ Again, there's a lot documentation for the PID library, but think of it as a fun
 
 So basically you want this function to *output* a PWM signal to move motor *position* to be the same as the *target*. You'd also like it to arrive at that position without a taking a lot of time.
 
-Moving on. The `setup()` function is not particularly interesting. The function cal `recoverPIDfromEEPROM();` handles retrieving the variables `kP`, `kI`, and `kD`. 
+One function in the code to review is `handle_cmd()`
 
+handle_cmd() is invoked when anything comes in from the serial. It's important to note that it's called from an interrupt routine called `serialEvent()`. Since it's being invoked from an interrupt, I like to have it do as little as possible and then return back to the rest of the program. So pretty much all handle_cmd() does is parse a command, then based on that command print out something to the serial and set a variable like:
+
+`state = S_MOTOR_INIT;`
+
+The following are examples of commands that can be submitted to handle_cmd():
+
+* report - does a text dump of various variables.
+* W - write variables kP, kI, and kD to the eeprom
+* dump - dump all eeprom variables out as text
+* reset - restore the current kP, kI, and kD variables from what's in eeprom.
+* P 10.0  - sets kP to 10.0
+* I 0.002 - sets kI to 0.002
+* D 1.0   - sets kD to 1.0
+* target 100 - sets the target to 100
+* plot - sends data to the python program for graphing
+* P - pause the motor.
+* zero - sets the encoder counter to zero. 
+* probe_device - returns a name for the device, in this case "PID_device". I like this when multiple devices are hanging off the same computer, then my python code can poll all the devices and find the one it's interested in.
+
+Moving on. The `setup()` function is not particularly interesting. The function cal `recoverPIDfromEEPROM();` handles retrieving the variables `kP`, `kI`, and `kD` from the eeprom. The `loop()` function looks like this:
+
+Hopefully you're familiar with state machines. These are really handy if you get tired of having `if {this1} else if {this2} else if {this3}...`. There are some super fast programs for things like balancing robots that use state machines. The basis of this section is the switch statement. Where:
+
+
+' // state = some_value like S_REPORT, S_MOTOR_RUN or some other integer
+
+  switch (state) {
+  case S_REPORT:
+    position = encoder.read();
+    printPos();
+    state = S_MOTOR_OFF;
+    break;
+  case S_MOTOR_RUN:
+  .
+  .
+  .
+  etc
+'
 
