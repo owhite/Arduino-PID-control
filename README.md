@@ -24,10 +24,10 @@ So I have to admit I never really understood this formula:
 
 ![PID formula](http://i.imgur.com/VzkznFA.png)
 
-still dont, quite frankly. But these plots are making a lot more sense.
+still dont, quite frankly. But once you get PID working in your arduino code, and try to move a motor - this is an example of what might happen:  
 
 ![Wikipedia PID graph](https://upload.wikimedia.org/wikipedia/commons/a/a3/PID_varyingP.jpg)
 
-The graph above starts to show what happens - actually what will never happen without PID. Again, the x-axis is time, the y-axis is motor position. Using a serial command you issue a command to go to a certain position. The blue shows the ideal situation: at a certain time point you want the dumb thing to go to a specific point and just stay there. What might happen is something like the purple line. You request to go to a certain position and in the case of the purple line, the motor wildly over shoots that position. You dont know how to slow down at the right time, maybe if you were manually controlling it it would go "whoaaaaa" and try to swing back to that position, over shooting, and eventually you'd bounce back and forth to get close to the desired position.
+Actually this is what will never happen without PID. Again, the x-axis is time, the y-axis is motor position. Using a serial command you issue a command to go to a certain position. The blue shows the ideal situation: at a certain time point you want the dumb thing to go to a specific point and just stay there. What might happen is something like the purple line. You request to go to a certain position and in the case of the purple line, the motor wildly over shoots that position. It also doesnt know how to slow down at the right time, it also goes "whoaaaaa" and tries to swing back to the target position, over shooting, and eventually bounces back and forth to get close to the target position.
 
 
