@@ -251,15 +251,47 @@ this loop:
                 sys.exit()
 ```
 
-in the python code handles accepting keyboard input from your computer, sending it to the arduino, and then receiving the response from the arduino. You can use all the [commands](#commands) that we specified before. If you want to exit, type exit, or Control-c. Here's an example session:
+in the python code handles accepting keyboard input from your computer, sending it to the arduino, and then receiving the response from the arduino. You can use all the [commands](#commands) that we specified before. If you want to exit, type exit, or Control-c. Here's an example session. First start the python program one the comman line like this:
+```
+$ ./serial_n_plot.py
+```
+and then here is an example session:
 
 ```
-INSERT COOL SESSION HERE
+owens-MacBook-Air-2:PID_motor_control owhite$ ./serial_n_plot.py 
+found:  /dev/tty.usbmodem2335471
+Enter Message:report
+sending report
+/dev/tty.usbmodem2335471 reporting
+Position=86.00 PID_output=44.80 Target=200.00
+P=0.40 I=0.00 D=0.00
+ state=S_MOTOR_OFF
+
+Enter Message:P 0.5
+sending P 0.5
+/dev/tty.usbmodem2335471 set P
+
+Enter Message:target 250
+sending target 250
+/dev/tty.usbmodem2335471 target: 250.00
+
+Enter Message:report
+sending report
+/dev/tty.usbmodem2335471 reporting
+Position=252.00 PID_output=-1.00 Target=250.00
+P=0.50 I=0.00 D=0.00
+ state=S_MOTOR_RUN
+
+Enter Message:plot
+sending plot
+
 ```
 
-When you hit plot, you should get a result like this:
+you're motor may have different behavior but when you hit plot, you might get a result like this:
 
-and the cool thing is, this is not some theoretical plot that you found on the net, it actually the behavior of the last `target 300` that you just ran.
+![PID graph](http://i.imgur.com/hw9jrO1.png)
+
+and the cool thing is, this is not some theoretical plot that you found on the net, it actually the behavior of the last `target 250` that you just ran.
 
 Note, when the plot comes up you have to use your mouse to close the window, and then it returns control back to the command line that is running the python code. Be gentle about exiting the python program. Control-c and `quit` is the way to go, otherwise you may gum up the serial port and will probably need to reboot.
 
