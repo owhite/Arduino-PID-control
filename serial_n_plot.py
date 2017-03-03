@@ -31,21 +31,31 @@ class handle_device:
             ser.close()
 
     def handle_plot(self, text):
-        x = []    # each loop number
-        y = []    # decay results
+        x1 = []    # each loop number
+        y1 = []    # decay results
+        x2 = []    # each loop number
+        y2 = []    # decay results
 
         max = 0;
         min = 10000;
         for line in text.split('\n'):
             str = line.split(' ')
-            if (str[0] == 'data'):
+            if (str[0] == 'positions'):
                 t = 0
                 for s in str[1:]:
-	            x.append(t)
-	            y.append(int(s))
+	            x1.append(t)
+	            y2.append(int(s))
                     if (int(s) > max): max = int(s)
                     if (int(s) < min): min = int(s)
 	            t += 1
+
+            if (str[0] == 'times'):
+                t = 0
+                for s in str[1:]:
+	            x2.append(t)
+	            y2.append(int(s))
+	            t += 1
+
             if (str[0] == 'target'):
                 target = float(str[1].rstrip())
             if (str[0] == 'start'):
@@ -59,23 +69,23 @@ class handle_device:
             if (str[0] == 'kD'):
                 kD = float(str[1].rstrip())
 
+        if (max < target): max = target
         height = max - min
         bump = height * 0.05
         axes = plt.gca()
         axes.set_ylim([min - bump, max + bump])
         PID_str = ("kP = %s kI = %s kD = %s") % (kP, kI, kD)
-        # plt.text(20, max * .8, ('position = %s' % position), fontsize=10)
-        # plt.text(20, max * .75, ('target = %s' % target), fontsize=10)
-        # plt.text(20, max * .70, PID_str, fontsize=10)
 
         plt.text((t / 2), min + bump, PID_str,
                  horizontalalignment='left',
                  verticalalignment='bottom')
         
-        plt.plot(x, y, label=('position = %s' % int(position)))
+        plt.plot(x1, y1, label=('position = %s' % int(position)))
         plt.plot([0, t], [target, target], label=('target = %s' % int(target)))
         plt.legend(loc=1); 
         plt.show()
+
+
 
         
 class Decay:
